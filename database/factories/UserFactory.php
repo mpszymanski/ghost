@@ -14,10 +14,15 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(App\User::class, function (Faker $faker) {
+	$list = ['M','F'];
+	$gander = $list[array_rand($list)];
+
     return [
-        'name' => $faker->name,
+        'nick' => $gander == 'M' ? $faker->firstNameMale : $faker->firstNameFemale,
         'email' => $faker->unique()->safeEmail,
         'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
         'remember_token' => str_random(10),
+        'birth_date' => $faker->dateTimeBetween($startDate = '-50 years', $endDate = '-18 years', $timezone = null),
+		'gender' => $gander
     ];
 });
