@@ -1,0 +1,8 @@
+.section {
+	background-color: $section-bg;
+	padding-top: $section-top;
+	padding-bottom: $section-bottom;
+	.header {
+		margin-bottom: $section-beader-space;
+	}
+}
