@@ -10,4 +10,9 @@ class Event extends Model
     {
     	return $this->hasOne('App\Place');
     }
+
+    public function owner()
+    {
+    	return $this->belongsTo('App\User');
+    }
 }

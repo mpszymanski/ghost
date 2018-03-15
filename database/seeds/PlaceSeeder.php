@@ -11,7 +11,7 @@ class PlaceSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Event::class, 50)->create()->each(function ($u) {
+        factory(App\Event::class, 5000)->create()->each(function ($u) {
             $u->place()->save(factory(App\Place::class)->make());
         });
     }

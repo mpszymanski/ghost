@@ -13,4 +13,9 @@
 
 Auth::routes();
 
+Route::get('/ip', function() {
+	return request()->getClientIp();
+});
+
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/map/events/{position}', 'HomeController@mapEvents')->name('map.events');
