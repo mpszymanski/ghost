@@ -3,20 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\Repositories\Eloquent\Criteria\IsEventForMe;
+use App\Repositories\Eloquent\Criteria\NotHappenedYet;
+use App\Repositories\Interfaces\EventRepository;
+use App\Transformers\MapEventTransformer;
 use Carbon\Carbon;
 use FarhanWazir\GoogleMaps\GMaps;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+    private $event_repository;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(EventRepository $event_repository)
     {
         $this->middleware('guest');
+        $this->event_repository = $event_repository;
     }
 
     /**
@@ -26,44 +33,34 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $upcomin_events = Event::with(['place', 'owner'])
-            ->whereDate('end_date', '>', Carbon::tomorrow())
+        $this->event_repository->addCriteria(new NotHappenedYet);
+        $this->event_repository->addCriteria(new IsEventForMe);
+
+        $upcomin_events = $this->event_repository
+            ->with(['place', 'owner'])
             ->orderBy('start_date')
             ->orderBy('start_time')
-            ->take(9)->get();
+            ->take(9);
 
         return view('home.index', compact('upcomin_events', 'map'));
     }
 
+    /**
+     * Return nerby events in json.
+     * @param  string $position f.e."45.45465465,32.45123321"
+     * @return Json
+     */
     public function mapEvents($position)
     {
+        $this->event_repository->addCriteria(new NotHappenedYet);
+
         list($lat, $lng) = explode(',', $position);
 
-        // TODO: Move this query to repository
-        $events = Event::join('places', 'places.event_id', '=', 'events.id')
-            ->selectRaw("events.id, events.end_date, places.event_id, places.name, places.lat, places.lng, ( ACOS( COS( RADIANS( $lat ) ) 
-                  * COS( RADIANS( lat ) )
-                  * COS( RADIANS( lng ) - RADIANS( $lng ) )
-                  + SIN( RADIANS( $lat  ) )
-                  * SIN( RADIANS( lat ) )
-              )
-            * 6371
-            ) AS distance")
-            ->whereDate('events.end_date', '>', Carbon::tomorrow())
-            ->having('distance', '<', 5)
-            ->take(1000)
-            ->get();
+        $events = $this->event_repository
+            ->eventsNearby($lat, $lng, $distance = 5)
+            ->take(1000);
 
-        // TODO: Move this code to Transformer
-        $events = $events->map(function($event) {
-            $e = [];
-            $e['name'] = $event->name;
-            $e['place_name'] = $event->place->name;
-            $e['position'] = [];
-            $e['position']['lat'] = (double)$event->place->lat;
-            $e['position']['lng'] = (double)$event->place->lng;
-            return $e;
-        });
+        $events = MapEventTransformer::transform($events);
 
         return $events;
     }

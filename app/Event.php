@@ -15,4 +15,9 @@ class Event extends Model
     {
     	return $this->belongsTo('App\User');
     }
+
+    public function participants()
+    {
+    	return $this->hasMany('App\Participant');
+    }
 }

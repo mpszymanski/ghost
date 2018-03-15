@@ -67,11 +67,18 @@
                 var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
                 var labelIndex = 0
                 markers.forEach((mark) => {
-                    new google.maps.Marker({
+                    var infowindow = new google.maps.InfoWindow({
+                        content: mark.name
+                    })
+                    var marker = new google.maps.Marker({
                         position: mark.position,
                         map: this.map,
-                        label: labels[labelIndex++ % labels.length]
+                        label: labels[labelIndex++ % labels.length],
+                        title: mark.name
                     })
+                    marker.addListener('click', function() {
+                        infowindow.open(this.map, marker);
+                    });
                 })
             },
             transformPosition (position) {
