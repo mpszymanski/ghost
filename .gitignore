@@ -14,3 +14,4 @@ yarn-error.log
 ghost.sublime-project
 ghost.sublime-workspace
 .phpintel
+storage/debugbar

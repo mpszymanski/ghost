@@ -19,3 +19,10 @@ Route::get('/ip', function() {
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/map/events/{position}', 'HomeController@mapEvents')->name('map.events');
+
+Route::get('/{id}/{slug}', 'EventsController@show')->name('event');
+
+Route::group(['middleware'=> 'auth'], function() {
+	Route::post('/{id}/join', 'EventsController@join')->name('event.join');
+});
+

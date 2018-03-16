@@ -25,6 +25,9 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('join-event', function($user, $event) {
+            return $event->is_public || $user->invitations()->where('id', $event->id)->exists();
+        });
+        
     }
 }
