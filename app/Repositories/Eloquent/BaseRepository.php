@@ -58,6 +58,8 @@ abstract class BaseRepository implements Repository, CanUseCriteria
 
     public function find($id, $columns = ['*']) 
     {
+        $this->applyCriteria();
+        
         $results = $this->model->select($columns)->find($id);
 
         // Reset model
