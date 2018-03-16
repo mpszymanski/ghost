@@ -16,8 +16,10 @@ class IsEventForMe implements Criteria
     	if(! $user)
         	return $model->whereIsPublic(1);
 
-        return $model->where('is_public', 1)->orWhereHas('invitations', function($q) use ($user) {
-        	$q->where('user_id', $user->id);
+        return $model->where(function($query) use ($user) {
+            $query->whereIsPublic(1)->orWhere('user_id', $user->id)->orWhereHas('invitations', function($query) use ($user) {
+                $query->where('user_id', $user->id);
+            });
         });
     }    
 }

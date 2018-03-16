@@ -42,13 +42,17 @@
 						<dd class="col-sm-10">
 						    @forelse($event->invitations as $invitation)
 								<div class="row">
-									<div class="col-md-6">
+									<div class="pl-3 pr-2">
+										<i class="material-icons" 
+										title="{{ $invitation->is_confirmed ? __('Will come') : __('Did not confirm yet') }}">
+											{{ $invitation->is_confirmed ? 'check_box' : 'check_box_outline_blank' }}
+										</i>
+									</div>
+									<div class="">
 										{{ $invitation->user->nick }} 
 										( <a href="mailto:{{ $invitation->user->email }}">{{ $invitation->user->email }}</a> )
 									</div>
-									<div class="col-md-2">
-										{{ $invitation->is_confirmed }} 
-									</div>
+									
 								</div>
 						    @empty
 								- {{ __('Nobody join this event yet') }} -
@@ -69,12 +73,12 @@
 								<div class="col-md-2">
 									@auth
 										@can('join-event', $event)
-											<button type="submit" class="btn btn-primary">
+											<button type="submit" class="btn btn-primary mt-2">
 												{{ __('Join now!') }}
 											</button>
 										@endif
 									@else
-										<button type="submit" class="btn btn-primary">
+										<button type="submit" class="btn btn-primary mt-2">
 											{{ __('Login to join!') }}
 										</button>
 									@endauth

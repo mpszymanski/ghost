@@ -20,6 +20,6 @@ class UsersTableSeeder extends Seeder
 			'gender' => 'M'
 		]);
 
-		factory(App\User::class, 50)->create();
+		factory(App\User::class, 1000)->create();
     }
 }

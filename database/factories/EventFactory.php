@@ -6,8 +6,8 @@ use Faker\Generator as Faker;
 $factory->define(App\Event::class, function (Faker $faker) {
     $limit = rand(3, 16);
     $date = $faker->dateTimeBetween($startDate = '+2 weeks', $endDate = '+3 months', $timezone = null);
-    $time1 = $faker->time($format = 'H:i:s');
-    $time2 = $faker->time($format = 'H:i:s');
+    $time1 = Carbon::createFromTime(rand(5,20), rand(0,11)*5, 0);
+    $time2 = $time1->addHours(rand(1, 3));
     $c = Carbon::instance($date);
     $deadline = $c->subDays(rand(1, 7));
     $users = App\User::all(['id'])->pluck('id');
