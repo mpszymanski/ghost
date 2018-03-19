@@ -3,6 +3,7 @@
 @section('content')
 	<section class="section">
 		<div class="container">
+			@include('alert::bootstrap')
 			<div class="card">
 				<div class="card-body">
 					<header class="header">
@@ -66,34 +67,45 @@
 							</a>
 						</dd>
 					</dl>
-					<form action="{{ route('events.join', $event) }}" method="POST">
-						{{ csrf_field() }}
-						<div class="row">
-							@if($event->end_date->timestamp > Carbon\Carbon::today()->timestamp)
-								<div class="col-md-2">
-									@auth
-										@can('join-event', $event)
+					<div class="row">
+						@if($event->end_date->timestamp > Carbon\Carbon::today()->timestamp)
+							<div class="col-md-2">
+								@auth
+									@can('join-event', $event)
+										<form action="{{ route('events.join', $event) }}" method="post">
+											@csrf
 											<button type="submit" class="btn btn-primary mt-2">
 												{{ __('Join now!') }}
 											</button>
-										@endif
-									@else
+										</form>
+									@endif
+									@can('leave-event', $event)
+										<form action="{{ route('events.leave', $event) }}" method="post">
+											@csrf
+											<button type="submit" class="btn btn-primary mt-2">
+												{{ __('Leave this event') }}
+											</button>
+										</form>
+									@endcan
+								@else
+									<form action="{{ route('events.join', $event) }}" method="post">
+										@csrf
 										<button type="submit" class="btn btn-primary mt-2">
 											{{ __('Login to join!') }}
 										</button>
-									@endauth
-								</div>
-								<div class="col-md-4">
-									{{ __('Joining is available until') }}<br>
-									<strong>{{ $event->f_register_deadline }}</strong>
-								</div>
-							@else
-								<button type="submit" class="btn btn-secendary" disabled>
-									{{ __('This event is already over') }}
-								</button>
-							@endif
+									</form>
+								@endauth
+							</div>
+							<div class="col-md-4">
+								{{ __('Joining is available until') }}<br>
+								<strong>{{ $event->f_register_deadline }}</strong>
+							</div>
+						@else
+							<button type="submit" class="btn btn-secendary" disabled>
+								{{ __('This event is already over') }}
+							</button>
+						@endif
 						</div>
-					</form>
 				</div>
 			</div>
 		</div>

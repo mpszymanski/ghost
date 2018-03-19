@@ -24,6 +24,7 @@ Route::get('/{id}/{slug}', 'EventsController@show')->name('events.show');
 
 Route::group(['middleware'=> 'auth'], function() {
 	Route::post('/{id}/join', 'EventsController@join')->name('events.join');
+	Route::post('/{id}/leave', 'EventsController@leave')->name('events.leave');
 	Route::get('/events', 'EventsController@index')->name('events.index');
 });
 

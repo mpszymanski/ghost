@@ -3,6 +3,8 @@
 @section('content')
 <section class="section">
 	<div class="container">
+		@include('alert::bootstrap')
+
 		@include('events.components._table', [
 			'table_name' => __('My events'),
 			'events' => $owned_events

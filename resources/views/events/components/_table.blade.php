@@ -42,14 +42,26 @@
 								</a>
 							@endcan
 							@can('join-event', $event)
-								<a href="{{ route('events.join', $event) }}" class="dropdown-item">
-									Join
-								</a>
+								<form action="{{ route('events.join', $event) }}" method="post">
+									@csrf
+									<button type="submit" class="dropdown-item">
+										Join
+									</button>
+								</form>
+								<form action="{{ route('events.leave', $event) }}" method="post">
+									@csrf
+									<button type="submit" class="dropdown-item">
+										Refuse
+									</button>
+								</form>
 							@endcan
-							@can('quit-event', $event)
-								<a href="#" class="dropdown-item">
-									Quit
-								</a>
+							@can('leave-event', $event)
+								<form action="{{ route('events.leave', $event) }}" method="post">
+									@csrf
+									<button type="submit" class="dropdown-item">
+										Leave
+									</button>
+								</form>
 							@endcan
 					      	<div role="separator" class="dropdown-divider"></div>
 					      	@can('remove-event', $event)
