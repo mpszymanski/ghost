@@ -12,4 +12,8 @@ let mix = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+   .sass('resources/assets/sass/app.scss', 'public/css/app.css')
+   .combine([
+   		'public/css/app.css',
+        'node_modules/@fengyuanchen/datepicker/dist/datepicker.css'
+    ], 'public/css/app.css');

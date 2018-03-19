@@ -13,14 +13,14 @@
                             @csrf
 
                             <div class="form-group row">
-                                <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
+                                <label for="nick" class="col-md-4 col-form-label text-md-right">{{ __('Nick') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
+                                    <input id="nick" type="text" class="form-control{{ $errors->has('nick') ? ' is-invalid' : '' }}" name="nick" value="{{ old('nick') }}" required autofocus>
 
-                                    @if ($errors->has('name'))
+                                    @if ($errors->has('nick'))
                                         <span class="invalid-feedback">
-                                            <strong>{{ $errors->first('name') }}</strong>
+                                            <strong>{{ $errors->first('nick') }}</strong>
                                         </span>
                                     @endif
                                 </div>
@@ -35,6 +35,47 @@
                                     @if ($errors->has('email'))
                                         <span class="invalid-feedback">
                                             <strong>{{ $errors->first('email') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="gender" class="col-md-4 col-form-label text-md-right">{{ __('Gender') }}</label>
+
+                                <div class="col-md-6">
+                                    <div class="form-check-inline pt-2{{ $errors->has('gender') ? ' is-invalid' : '' }}">
+                                        <input class="form-check-input" type="radio" name="gender" value="F" id="gender1" 
+                                        {{ old('gender') == 'F' ?: 'checked' }} required>
+                                        <label class="form-check-label" for="gender1">
+                                            Female
+                                        </label>
+                                    </div>
+                                    <div class="form-check-inline pt-2{{ $errors->has('gender') ? ' is-invalid' : '' }}">
+                                        <input class="form-check-input" type="radio" name="gender" value="M" id="gender2" 
+                                        {{ old('gender') == 'M' ?: 'checked' }} required>
+                                        <label class="form-check-label" for="gender2">
+                                            Male
+                                        </label>
+                                    </div>
+
+                                    @if ($errors->has('gender'))
+                                        <span class="invalid-feedback">
+                                            <strong>{{ $errors->first('gender') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="birthdate" class="col-md-4 col-form-label text-md-right">{{ __('Birthdate') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="birthdate" type="search" class="form-control{{ $errors->has('birthdate') ? ' is-invalid' : '' }}" name="birthdate" value="{{ old('birthdate') }}" data-toggle="datepicker" autocomplete="off" readonly required>
+
+                                    @if ($errors->has('birthdate'))
+                                        <span class="invalid-feedback">
+                                            <strong>{{ $errors->first('birthdate') }}</strong>
                                         </span>
                                     @endif
                                 </div>
