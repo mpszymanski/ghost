@@ -2,55 +2,45 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\Eloquent\Criteria\AllowRegisterYet;
-use App\Repositories\Eloquent\Criteria\HasUnconfirmedInvitationFor;
-use App\Repositories\Eloquent\Criteria\IsEventForMe;
-use App\Repositories\Eloquent\Criteria\IsJoinedBy;
-use App\Repositories\Eloquent\Criteria\IsOwnedBy;
-use App\Repositories\Eloquent\Criteria\NotHappenedYet;
 use App\Repositories\Interfaces\EventRepository;
 use App\Repositories\Interfaces\InvitationRepository;
+use App\Services\Events\EventAttacherService;
+use App\Services\Events\UserEventsFetcherService;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class EventsController extends Controller
 {
-	private $event_repository, $invitation_repository;
+	private $evant_attacher, 
+            $user_events_fetcher, 
+            $event_repository;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(EventRepository $event_repository, InvitationRepository $invitation_repository)
+    public function __construct(
+        EventAttacherService $evant_attacher,
+        UserEventsFetcherService $user_events_fetcher, 
+        EventRepository $event_repository)
     {
-        $this->middleware('guest');
         $this->event_repository = $event_repository;
-        $this->invitation_repository = $invitation_repository;
+        $this->user_events_fetcher = $user_events_fetcher;
+        $this->evant_attacher = $evant_attacher;
     }
 
     public function index()
     {
-        $me = \Auth::user();
-
         // Get owned events.
-        $this->event_repository->addCriteria(new IsOwnedBy($me));
-        $owned_events = $this->event_repository
-            ->with(['place', 'invitations'])->orderBy('end_date')->all();
-        $this->event_repository->resetCriteria();
+        $owned_events = $this->user_events_fetcher->ownEvents();
 
         // Get events I'm joinde.
-        $this->event_repository->addCriteria(new NotHappenedYet);
-        $this->event_repository->addCriteria(new IsJoinedBy($me));
-        $joined_events = $this->event_repository
-            ->with(['place', 'owner', 'invitations'])->orderBy('end_date')->all();
-        $this->event_repository->resetCriteria();
+        $joined_events = $this->user_events_fetcher->joinedEvents();
 
         // Get events I'm invited to.
-        $this->event_repository->addCriteria(new AllowRegisterYet);
-        $this->event_repository->addCriteria(new HasUnconfirmedInvitationFor($me));
-        $unconfirmed_events = $this->event_repository
-            ->with(['place', 'owner', 'invitations'])->orderBy('end_date')->all();
-        $this->event_repository->resetCriteria();
+        $unconfirmed_events = $this->user_events_fetcher->withInvitationsEvents();
 
         return view('events.index', compact('owned_events',
             'joined_events', 'unconfirmed_events'));
@@ -67,18 +57,13 @@ class EventsController extends Controller
 
     public function join($id)
     {
-        $user = \Auth::user();
-        $event = $this->event_repository->find($id);
-        
-        $this->authorize('join-event', $event);
-
         try {
-            $invitation = $this->invitation_repository->updateOrCreate([
-                'event_id' => $event->id,
-                'user_id' => $user->id
-            ], [
-                'is_confirmed' => true
-            ]);
+            $user = \Auth::user();
+            $event = $this->event_repository->find($id);
+
+            $this->authorize('join-event', $event);
+
+            $this->evant_attacher->join($user, $event);
 
             \Alert::success('You join to event: ' . $event->name);
 
@@ -92,22 +77,15 @@ class EventsController extends Controller
 
     public function leave($id)
     {
-        $user = \Auth::user();
-        $event = $this->event_repository->find($id);
-
-        if(! ($user->can('leave-event', $event) || $user->can('join-event', $event))) {
-            abort(403);
-        }
-
-        $invitation = $this->invitation_repository->findWhere([
-            'event_id' => $event->id,
-            'user_id' => $user->id
-        ])->first();
-
-        $invitation ?? abort(404);
-        
         try {
-            $invitation = $this->invitation_repository->delete($invitation->id);
+            $user = \Auth::user();
+            $event = $this->event_repository->find($id);
+
+            if(! ($user->can('leave-event', $event) || $user->can('join-event', $event))) {
+                throw new AccessDeniedHttpException;
+            }
+
+            $this->evant_attacher->leave($user, $event);
 
             \Alert::success('You leaved event: ' . $event->name);
 

@@ -60,7 +60,7 @@ abstract class BaseRepository implements Repository, CanUseCriteria
     {
         $this->applyCriteria();
         
-        $results = $this->model->select($columns)->find($id);
+        $results = $this->model->select($columns)->findOrFail($id);
 
         // Reset model
         $this->makeModel();

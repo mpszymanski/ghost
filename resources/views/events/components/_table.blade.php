@@ -73,7 +73,13 @@
 					</td>
 				</tr>
 			@empty
-				{{ __('No events') }}
+				<tr>
+					<td>{{ __('No events') }}</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
 			@endforelse
 		</table>
 	</div>
