@@ -227,6 +227,11 @@ abstract class BaseRepository implements Repository, CanUseCriteria
         //
     }
 
+    public function resetCriteria()
+    {
+        $this->criterias = [];
+    }
+
     public function exists($where)
     {
         $this->applyCriteria();

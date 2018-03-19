@@ -66,7 +66,7 @@
 							</a>
 						</dd>
 					</dl>
-					<form action="{{ route('event.join', $event) }}" method="POST">
+					<form action="{{ route('events.join', $event) }}" method="POST">
 						{{ csrf_field() }}
 						<div class="row">
 							@if($event->end_date->timestamp > Carbon\Carbon::today()->timestamp)
