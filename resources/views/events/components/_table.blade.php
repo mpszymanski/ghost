@@ -31,27 +31,31 @@
 					<td>
 						<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ __('Actions') }}</button>
 					    <div class="dropdown-menu">
-					    	<a href="{{ route('events.show', [$event->id, $event->slug]) }}" class="dropdown-item">Details</a>
+					    	<a href="{{ route('events.show', [$event->id, $event->slug]) }}" class="dropdown-item">
+					    		{{ __('Details') }}
+					    	</a>
 					      	@can('edit-event', $event)
-								<a href="#" class="dropdown-item">Edit</a>
+								<a href="#" class="dropdown-item">
+									{{ __('Edit') }}
+								</a>
 							@endcan
 							<div role="separator" class="dropdown-divider"></div>
 					      	@can('invite-to-event', $event)
 								<a href="#" class="dropdown-item">
-									Invite
+									{{ __('Invite') }}
 								</a>
 							@endcan
 							@can('join-event', $event)
 								<form action="{{ route('events.join', $event) }}" method="post">
 									@csrf
 									<button type="submit" class="dropdown-item">
-										Join
+										{{ __('Join') }}
 									</button>
 								</form>
 								<form action="{{ route('events.leave', $event) }}" method="post">
 									@csrf
 									<button type="submit" class="dropdown-item">
-										Refuse
+										{{ __('Refuse') }}
 									</button>
 								</form>
 							@endcan
@@ -59,14 +63,14 @@
 								<form action="{{ route('events.leave', $event) }}" method="post">
 									@csrf
 									<button type="submit" class="dropdown-item">
-										Leave
+										{{ __('Leave') }}
 									</button>
 								</form>
 							@endcan
 					      	<div role="separator" class="dropdown-divider"></div>
 					      	@can('remove-event', $event)
 								<a href="#" class="dropdown-item">
-									Remove
+									{{ __('Remove') }}
 								</a>
 							@endcan
 					    </div>
