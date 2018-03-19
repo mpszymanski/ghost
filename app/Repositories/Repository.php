@@ -50,6 +50,14 @@ interface Repository {
     function update($id, array $attributes);
 
     /**
+     * Create entry if not exist or create new.
+     * @param  array $where 
+     * @param  array $params  
+     * @return Illuminate\Support\Collection
+     */
+    function updateOrCreate(array $where, array $params);
+
+    /**
      * Delete entry if exist in database or set it as deleted if soft delete is enabled.
      * @param  int $id 
      * @return boolean

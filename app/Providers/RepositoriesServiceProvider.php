@@ -27,5 +27,10 @@ class RepositoriesServiceProvider extends ServiceProvider
             'App\Repositories\Interfaces\EventRepository', 
             'App\Repositories\Eloquent\EloquentEventRepository'
         );
+
+        $this->app->bind(
+            'App\Repositories\Interfaces\InvitationRepository', 
+            'App\Repositories\Eloquent\EloquentInvitationRepository'
+        );
     }
 }
