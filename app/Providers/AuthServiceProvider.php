@@ -36,7 +36,7 @@ class AuthServiceProvider extends ServiceProvider
                 && $event->user_id != $user->id;
         });
 
-        Gate::define('quit-event', function($user, $event) {
+        Gate::define('leave-event', function($user, $event) {
             return $user->invitations->where('event_id', $event->id)->where('is_confirmed', 1)->count();
         });
 
