@@ -35,7 +35,7 @@
 					    		{{ __('Details') }}
 					    	</a>
 					      	@can('edit-event', $event)
-								<a href="#" class="dropdown-item">
+								<a href="{{ route('events.edit', $event) }}" class="dropdown-item">
 									{{ __('Edit') }}
 								</a>
 							@endcan

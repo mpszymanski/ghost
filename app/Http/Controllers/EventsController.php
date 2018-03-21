@@ -7,6 +7,7 @@ use App\Repositories\Interfaces\EventRepository;
 use App\Repositories\Interfaces\InvitationRepository;
 use App\Services\Events\EventAttacherService;
 use App\Services\Events\EventCreatorService;
+use App\Services\Events\EventUpdaterService;
 use App\Services\Events\UserEventsFetcherService;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -28,12 +29,14 @@ class EventsController extends Controller
         EventAttacherService $evant_attacher,
         UserEventsFetcherService $user_events_fetcher, 
         EventCreatorService $event_creator,
+        EventUpdaterService $event_updater,
         EventRepository $event_repository)
     {
         $this->event_repository = $event_repository;
         $this->user_events_fetcher = $user_events_fetcher;
         $this->evant_attacher = $evant_attacher;
         $this->event_creator = $event_creator;
+        $this->event_updater = $event_updater;
     }
 
     public function index()
@@ -51,9 +54,11 @@ class EventsController extends Controller
             'joined_events', 'unconfirmed_events'));
     }
 
-    public function create()
+    public function edit($id)
     {
-        return view('events.create');
+        $event = $this->event_repository->with('place')->find($id);
+
+        return view('events.edit', compact('event'));
     }
 
     public function store(EventRequest $request)
@@ -61,6 +66,24 @@ class EventsController extends Controller
         try {
             $this->event_creator->make($request);
             \Alert::success('New event was created!');
+        } catch (Exception $e) {
+            \Log::error($e->getMessage());
+            \Alert::error('Whops! Something went wrong!');
+        }
+
+        return redirect()->route('events.index');
+    }
+
+    public function create()
+    {
+        return view('events.create');
+    }
+
+    public function update(EventRequest $request, $id)
+    {
+        try {
+            $this->event_updater->make($id, $request);
+            \Alert::success('Event was updated!');
         } catch (Exception $e) {
             \Log::error($e->getMessage());
             \Alert::error('Whops! Something went wrong!');
