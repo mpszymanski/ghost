@@ -29,6 +29,7 @@ Route::group(['middleware'=> 'auth'], function() {
 	Route::post('/events', 'EventsController@store')->name('events.store');
 	Route::get('/events/{id}/edit', 'EventsController@edit')->name('events.edit');
 	Route::put('/events/{id}', 'EventsController@update')->name('events.update');
+	Route::delete('/events/{id}', 'EventsController@destroy')->name('events.destroy');
 });
 
 Route::get('/{id}/{slug}', 'EventsController@show')->name('events.show');

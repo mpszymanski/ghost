@@ -69,9 +69,13 @@
 							@endcan
 					      	<div role="separator" class="dropdown-divider"></div>
 					      	@can('remove-event', $event)
-								<a href="#" class="dropdown-item">
-									{{ __('Remove') }}
-								</a>
+					      		<form action="{{ route('events.destroy', $event) }}" method="post">
+								@csrf
+								@method('delete')
+									<button type="submit" class="dropdown-item">
+										{{ __('Remove') }}
+									</button>
+								</form>
 							@endcan
 					    </div>
 					</td>

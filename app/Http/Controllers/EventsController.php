@@ -92,6 +92,22 @@ class EventsController extends Controller
         return redirect()->route('events.index');
     }
 
+    public function destroy($id)
+    {
+        try {
+            $event = $this->event_repository->find($id);
+            $this->authorize('remove-event', $event);
+            $this->event_repository->delete($id);
+
+            \Alert::success('Event was deleted!');
+        } catch (Exception $e) {
+            \Log::error($e->getMessage());
+            \Alert::error('Whops! Something went wrong!');
+        }
+
+        return redirect()->route('events.index');
+    }
+
     public function show($id, $slug)
     {	
     	$event = $this->event_repository->with(['place', 'owner', 'invitations.user'])->find($id);
