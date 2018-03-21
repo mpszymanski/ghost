@@ -11,8 +11,18 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
                 @auth
-                    <li><a class="nav-link" href="{{ route('events.create') }}">{{ __('Create new event') }}</a></li>
-                    <li><a class="nav-link" href="{{ route('events.index') }}">{{ __('Your events') }}</a></li>
+                    <li>
+                        <a class="nav-link {{ request()->route()->getName() == 'events.create' ? 'active' : '' }}" 
+                            href="{{ route('events.create') }}">
+                            {{ __('Create new event') }}
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link {{ request()->route()->getName() == 'events.index' ? 'active' : '' }}" 
+                            href="{{ route('events.index') }}">
+                            {{ __('Your events') }}
+                        </a>
+                    </li>
                 @endauth
             </ul>
 
@@ -20,8 +30,17 @@
             <ul class="navbar-nav ml-auto">
                 <!-- Authentication Links -->
                 @guest
-                    <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
-                    <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
+                    <li>
+                        <a class="nav-link {{ request()->route()->getName() == 'login' ? 'active' : '' }}" 
+                        href="{{ route('login') }}">
+                            {{ __('Login') }}
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link {{ request()->route()->getName() == 'register' ? 'active' : '' }}" href="{{ route('register') }}">
+                            {{ __('Register') }}
+                        </a>
+                    </li>
                 @else
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
