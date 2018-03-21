@@ -41,7 +41,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('show-event', function($user, $event) {
-            return $event->is_public || $user->invitations->where('event_id', $event->id)->count();
+            return $event->is_public || $user->invitations->where('event_id', $event->id)->count() || $event->user_id == $user->id;
         });
 
         Gate::define('edit-event', $owned);

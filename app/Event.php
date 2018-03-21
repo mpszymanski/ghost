@@ -8,6 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
+    public $fillable = [
+        'name', 'description',
+        'start_date', 'end_date', 
+        'start_time', 'end_time',
+        'register_deadline',
+        'participants_limit',
+        'user_id',
+        'is_public'
+    ];
 
     /**
      * The attributes that should be mutated to dates.
@@ -67,9 +76,16 @@ class Event extends Model
         return $time->format($this->time_format);
     }
 
-     public function getFRegisterDeadlineAttribute()
+    public function getFRegisterDeadlineAttribute()
     {
         return $this->register_deadline->format($this->date_format);
+    }
+
+    public function getEndTimestampAttribute()
+    {
+        $time = Carbon::createFromFormat('H:i:s', $this->end_time);
+        $ts = (($time->hour * 60) + $time->minute) * 60;
+        return $this->end_date->timestamp + $ts;
     }
 
     public function place()

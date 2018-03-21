@@ -27,7 +27,7 @@
 						@if($unconfirmed = $event->invitations->where('is_confirmed', 0)->count())
 						     (+{{ $unconfirmed }}) 
 						@endif
-						/ {{ $event->participants_limit }}</td>
+						/ {!! $event->participants_limit or '&infin;' !!}</td>
 					<td>
 						<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ __('Actions') }}</button>
 					    <div class="dropdown-menu">

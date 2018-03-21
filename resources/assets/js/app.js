@@ -17,6 +17,7 @@ window.Vue = require('vue');
  */
 
 Vue.component('events-map', require('./components/EventsMap.vue'));
+Vue.component('events-coordinates-map', require('./components/EventsCoordinatesMap.vue'));
 
 const app = new Vue({
     el: '#app'

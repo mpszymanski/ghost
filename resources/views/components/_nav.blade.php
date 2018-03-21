@@ -11,7 +11,7 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
                 @auth
-                    <li><a class="nav-link" href="{{ route('login') }}">{{ __('Create new event') }}</a></li>
+                    <li><a class="nav-link" href="{{ route('events.create') }}">{{ __('Create new event') }}</a></li>
                     <li><a class="nav-link" href="{{ route('events.index') }}">{{ __('Your events') }}</a></li>
                 @endauth
             </ul>

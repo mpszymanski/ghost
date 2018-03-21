@@ -20,6 +20,8 @@
         "vue": "^2.5.16"
     },
     "dependencies": {
-        "@fengyuanchen/datepicker": "^0.6.4"
+        "@fengyuanchen/datepicker": "^0.6.4",
+        "inputmask": "^3.3.11",
+        "moment": "^2.21.0"
     }
 }

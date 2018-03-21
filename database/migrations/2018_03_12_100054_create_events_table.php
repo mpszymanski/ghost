@@ -26,13 +26,13 @@ class CreateEventsTable extends Migration
                 ->on('users')
                 ->onDelete('cascade');
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->date('start_date');
             $table->date('end_date');
             $table->time('start_time');
             $table->time('end_time');
             $table->date('register_deadline');
-            $table->unsignedTinyInteger('participants_limit');
+            $table->unsignedTinyInteger('participants_limit')->nullable();
             $table->unsignedTinyInteger('is_public')->default(0);
             $table->timestamps();
         });

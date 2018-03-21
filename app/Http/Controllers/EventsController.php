@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EventRequest;
 use App\Repositories\Interfaces\EventRepository;
 use App\Repositories\Interfaces\InvitationRepository;
 use App\Services\Events\EventAttacherService;
+use App\Services\Events\EventCreatorService;
 use App\Services\Events\UserEventsFetcherService;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -14,6 +16,7 @@ class EventsController extends Controller
 {
 	private $evant_attacher, 
             $user_events_fetcher, 
+            $event_creator,
             $event_repository;
 
     /**
@@ -24,11 +27,13 @@ class EventsController extends Controller
     public function __construct(
         EventAttacherService $evant_attacher,
         UserEventsFetcherService $user_events_fetcher, 
+        EventCreatorService $event_creator,
         EventRepository $event_repository)
     {
         $this->event_repository = $event_repository;
         $this->user_events_fetcher = $user_events_fetcher;
         $this->evant_attacher = $evant_attacher;
+        $this->event_creator = $event_creator;
     }
 
     public function index()
@@ -44,6 +49,24 @@ class EventsController extends Controller
 
         return view('events.index', compact('owned_events',
             'joined_events', 'unconfirmed_events'));
+    }
+
+    public function create()
+    {
+        return view('events.create');
+    }
+
+    public function store(EventRequest $request)
+    {
+        try {
+            $this->event_creator->make($request);
+            \Alert::success('New event was created!');
+        } catch (Exception $e) {
+            \Log::error($e->getMessage());
+            \Alert::error('Whops! Something went wrong!');
+        }
+
+        return redirect()->route('events.index');
     }
 
     public function show($id, $slug)
@@ -96,5 +119,4 @@ class EventsController extends Controller
         
         return redirect()->back();
     }
-
 }

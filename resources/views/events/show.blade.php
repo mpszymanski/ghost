@@ -36,7 +36,7 @@
 					  	<dt class="col-sm-2">{{ __('Description') }}</dt>
 						<dd class="col-sm-10">
 						    <p>
-								{{ $event->description }}
+								{{ $event->description or '- '.__('No description').' -' }}
 							</p>
 						</dd>
 						<dt class="col-sm-2">{{ __('Participants') }}</dt>
@@ -62,13 +62,15 @@
 						<dt class="col-sm-2">{{ __('Place') }}</dt>
 						<dd class="col-sm-10">
 							{{ $event->place->name }}<br>
-							<a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{ $event->place->lat }},{{ $event->place->lng }}">
-								{{ __('Show on map') }}
-							</a>
+							@if($event->place->lat != 0 && $event->place->lng !=0  )
+								<a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{ $event->place->lat }},{{ $event->place->lng }}">
+									{{ __('Show on map') }}
+								</a>
+							@endif
 						</dd>
 					</dl>
 					<div class="row">
-						@if($event->end_date->timestamp > Carbon\Carbon::today()->timestamp)
+						@if($event->end_timestamp > Carbon\Carbon::now()->timestamp)
 							<div class="col-md-2">
 								@auth
 									@can('join-event', $event)
@@ -101,9 +103,11 @@
 								<strong>{{ $event->f_register_deadline }}</strong>
 							</div>
 						@else
-							<button type="submit" class="btn btn-secendary" disabled>
-								{{ __('This event is already over') }}
-							</button>
+							<div class="col-md-2">
+								<button type="submit" class="btn btn-secendary" disabled>
+									{{ __('This event is already over') }}
+								</button>
+							</div>
 						@endif
 						</div>
 				</div>

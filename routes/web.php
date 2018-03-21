@@ -20,11 +20,14 @@ Route::get('/ip', function() {
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/map/events/{position}', 'HomeController@mapEvents')->name('map.events');
 
-Route::get('/{id}/{slug}', 'EventsController@show')->name('events.show');
-
 Route::group(['middleware'=> 'auth'], function() {
 	Route::post('/{id}/join', 'EventsController@join')->name('events.join');
 	Route::post('/{id}/leave', 'EventsController@leave')->name('events.leave');
+
 	Route::get('/events', 'EventsController@index')->name('events.index');
+	Route::get('/events/create', 'EventsController@create')->name('events.create');
+	Route::post('/events', 'EventsController@store')->name('events.store');
 });
+
+Route::get('/{id}/{slug}', 'EventsController@show')->name('events.show');
 
