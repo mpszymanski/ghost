@@ -56,6 +56,9 @@ class EventsController extends Controller
 
     public function edit($id)
     {
+        $event = $this->event_repository->find($id);
+        $this->authorize('edit-event', $event);
+        
         $event = $this->event_repository->with('place')->find($id);
 
         return view('events.edit', compact('event'));
@@ -82,7 +85,10 @@ class EventsController extends Controller
     public function update(EventRequest $request, $id)
     {
         try {
+            $event = $this->event_repository->find($id);
+            $this->authorize('edit-event', $event);
             $this->event_updater->make($id, $request);
+
             \Alert::success('Event was updated!');
         } catch (Exception $e) {
             \Log::error($e->getMessage());
