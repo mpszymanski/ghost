@@ -72,7 +72,7 @@
                                 <form action="{{ route('events.destroy', $event) }}" method="post">
                                     @csrf
                                     @method('delete')
-                                    <button type="submit" class="dropdown-item">
+                                    <button type="submit" class="dropdown-item remove-form-button">
                                         {{ __('Remove') }}
                                     </button>
                                 </form>

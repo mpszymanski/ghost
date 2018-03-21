@@ -21,3 +21,17 @@
 </section>
 
 @endsection
+
+@push('scripts')
+    <script type="text/javascript">
+        $(function() {
+            $('.remove-form-button').click(function(e) {
+                e.preventDefault()
+                var status = confirm('Are you sure, you want to remove this event?')
+                if(status) {
+                    $(this).parent('form').submit()
+                }
+            })
+        })
+    </script>
+@endpush
