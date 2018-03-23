@@ -4,14 +4,15 @@
 
 // Variables
 @import "variables";
+@import "helpers";
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
 // Components
-@import "components/_section";
-@import "components/_switch";
-@import "components/_select";
+@import "components/section";
+@import "components/switch";
+@import "components/select";
 
 // Elements
-@import "elements/_jumbotron-homepage";
+@import "elements/jumbotron-homepage";

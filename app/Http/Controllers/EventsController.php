@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserWasInvited;
 use App\Http\Requests\EventRequest;
 use App\Repositories\Interfaces\EventRepository;
 use App\Repositories\Interfaces\InvitationRepository;
@@ -179,9 +180,10 @@ class EventsController extends Controller
 
             foreach ($users as $key => $user) {
                 $this->evant_attacher->invite($user, $event);
+                event(new UserWasInvited($user, $event, $message));
             }
             
-            \Alert::success('You invite ' . count($emails) . ' to event: ' . $event->name);
+            \Alert::success('You invite ' . count($emails) . ' user(s) to event: ' . $event->name);
 
         } catch(\Exception $e) {
             \Log::error($e->getMessage());
