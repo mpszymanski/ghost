@@ -164,4 +164,30 @@ class EventsController extends Controller
         
         return redirect()->back();
     }
+
+    public function invite()
+    {
+        $id = request()->get('event_id');
+        $emails = explode(',', request()->get('emails'));
+        $message = request()->get('message');
+
+        try {
+            $users = \App\User::whereIn('email', (array) $emails)->get();
+            $event = $this->event_repository->find($id);
+
+            $this->authorize('invite-to-event', $event);
+
+            foreach ($users as $key => $user) {
+                $this->evant_attacher->invite($user, $event);
+            }
+            
+            \Alert::success('You invite ' . count($emails) . ' to event: ' . $event->name);
+
+        } catch(\Exception $e) {
+            \Log::error($e->getMessage());
+            \Alert::danger('Opps! Something went wrong!');
+        }
+        
+        return redirect()->back();
+    }
 }

@@ -41,7 +41,7 @@
                             @endcan
                             <div role="separator" class="dropdown-divider"></div>
                             @can('invite-to-event', $event)
-                                <a href="#" class="dropdown-item">
+                                <a href="#" class="dropdown-item" data-toggle="modal" data-target="#invitation-modal" data-event="{{ $event->id }}">
                                     {{ __('Invite') }}
                                 </a>
                             @endcan

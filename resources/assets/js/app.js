@@ -9,6 +9,7 @@ require('./bootstrap');
 require('./vendors');
 
 window.Vue = require('vue');
+var vSelect = require('vue-select');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -16,8 +17,10 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.component('v-select', vSelect.VueSelect)
 Vue.component('events-map', require('./components/EventsMap.vue'));
 Vue.component('events-coordinates-map', require('./components/EventsCoordinatesMap.vue'));
+Vue.component('user-select', require('./components/UserSelect.vue'));
 
 const app = new Vue({
     el: '#app'

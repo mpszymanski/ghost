@@ -21,8 +21,9 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/map/events/{position}', 'HomeController@mapEvents')->name('map.events');
 
 Route::group(['middleware'=> 'auth'], function() {
-	Route::post('/{id}/join', 'EventsController@join')->name('events.join');
-	Route::post('/{id}/leave', 'EventsController@leave')->name('events.leave');
+	Route::post('/events/{id}/join', 'EventsController@join')->name('events.join');
+	Route::post('/events/{id}/leave', 'EventsController@leave')->name('events.leave');
+	Route::post('/events/invite', 'EventsController@invite')->name('events.invite');
 
 	Route::get('/events', 'EventsController@index')->name('events.index');
 	Route::get('/events/create', 'EventsController@create')->name('events.create');
@@ -31,6 +32,16 @@ Route::group(['middleware'=> 'auth'], function() {
 	Route::put('/events/{id}', 'EventsController@update')->name('events.update');
 	Route::delete('/events/{id}', 'EventsController@destroy')->name('events.destroy');
 });
+
+Route::get('users/autoload', function() {
+	$query = request()->get('q');
+	return App\User::where('nick', 'like', "%$query%")->orWhere('email', 'like', "%$query%")
+		->take(20)
+		->get()
+		->map(function($user) {
+			return "{$user->nick}<{$user->email}>";
+		});
+})->name('users.autoload');
 
 Route::get('/{id}/{slug}', 'EventsController@show')->name('events.show');
 

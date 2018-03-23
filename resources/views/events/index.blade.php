@@ -17,6 +17,8 @@
 			'table_name' => __('Invitations'),
 			'events' => $unconfirmed_events
 		])
+
+		@include('events.components._invitation_modal')
 	</div>
 </section>
 
@@ -32,6 +34,15 @@
                     $(this).parent('form').submit()
                 }
             })
+
+            $('#invitation-modal').on('show.bs.modal', function (event) {
+			  	var button = $(event.relatedTarget) 
+			  	var id = button.data('event')
+
+			  	var modal = $(this)
+			  	modal.find('.modal-dialog #event_id').val(id)
+			  	console.log(modal.find('.modal-dialog #event_id'), id)
+			})
         })
     </script>
 @endpush
