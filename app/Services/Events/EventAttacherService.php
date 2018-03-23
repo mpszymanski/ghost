@@ -23,12 +23,23 @@ class EventAttacherService
 
     public function join(\App\User $user, \App\Event $event)
     {
-    	return $this->addInvitationWithStatus($user, $event, true);
+    	return $this->invitation_repository->updateOrCreate([
+            'event_id' => $event->id,
+            'user_id' => $user->id
+        ], [
+            'is_confirmed' => true
+        ]);
     }
 
     public function invite(\App\User $user, \App\Event $event)
     {
-        return $this->addInvitationWithStatus($user, $event, false);
+        return $this->invitation_repository->updateOrCreate([
+            'event_id' => $event->id,
+            'user_id' => $user->id
+        ], [
+            'is_confirmed' => false,
+            'invited_by' => \Auth::user()->id
+        ]);
     }
 
     public function leave(\App\User $user, \App\Event $event)
@@ -42,15 +53,5 @@ class EventAttacherService
             throw new NotFoundHttpException;
 
         return $this->invitation_repository->delete($invitation->id);
-    }
-
-    private function addInvitationWithStatus(\App\User $user, \App\Event $event, Bool $status)
-    {
-        return $this->invitation_repository->updateOrCreate([
-            'event_id' => $event->id,
-            'user_id' => $user->id
-        ], [
-            'is_confirmed' => $status
-        ]);
     }
 }
