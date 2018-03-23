@@ -74,12 +74,30 @@ abstract class BaseRepository implements Repository, CanUseCriteria
 
         $this->model = $this->model->select($columns);
 
-        if(count($where) == 3) {
+        if(count($where) == 3) { 
             list($col, $opr, $val) = $where;
-            $results =  $this->model->where($col, $opr, $val)->get();
+            $this->model = $this->model->where($col, $opr, $val);
         } else {
-            $results =  $this->model->where($where)->get();
+            $this->model = $this->model->where($where);
         }
+
+        $results = $this->model->get();
+
+        // Reset model
+        $this->makeModel();
+
+        return $results;
+    }
+
+    public function findWhereIn($column, $values, $columns = ['*'], $boolean = 'and') 
+    {
+        $this->applyCriteria();
+
+        $this->model = $this->model->select($columns);
+        
+        $this->model = $this->model->whereIn($column, $values, $boolean);
+
+        $results = $this->model->get();
 
         // Reset model
         $this->makeModel();

@@ -6,6 +6,7 @@ use App\Events\UserWasInvited;
 use App\Http\Requests\EventRequest;
 use App\Repositories\Interfaces\EventRepository;
 use App\Repositories\Interfaces\InvitationRepository;
+use App\Repositories\Interfaces\UserRepository;
 use App\Services\Events\EventAttacherService;
 use App\Services\Events\EventCreatorService;
 use App\Services\Events\EventUpdaterService;
@@ -19,6 +20,7 @@ class EventsController extends Controller
 	private $evant_attacher, 
             $user_events_fetcher, 
             $event_creator,
+            $user_repository,
             $event_repository;
 
     /**
@@ -31,9 +33,11 @@ class EventsController extends Controller
         UserEventsFetcherService $user_events_fetcher, 
         EventCreatorService $event_creator,
         EventUpdaterService $event_updater,
+        UserRepository $user_repository,
         EventRepository $event_repository)
     {
         $this->event_repository = $event_repository;
+        $this->user_repository = $user_repository;
         $this->user_events_fetcher = $user_events_fetcher;
         $this->evant_attacher = $evant_attacher;
         $this->event_creator = $event_creator;
@@ -173,7 +177,7 @@ class EventsController extends Controller
         $message = request()->get('message');
 
         try {
-            $users = \App\User::whereIn('email', (array) $emails)->get();
+            $users = $this->user_repository->findWhereIn('email', (array) $emails);
             $event = $this->event_repository->find($id);
 
             $this->authorize('invite-to-event', $event);
