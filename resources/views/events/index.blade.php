@@ -43,6 +43,10 @@
 			  	modal.find('.modal-dialog #event_id').val(id)
 			  	console.log(modal.find('.modal-dialog #event_id'), id)
 			})
+
+			@if($errors->has('emails'))
+				$('#invitation-modal').modal('show')
+			@endif
         })
     </script>
 @endpush

@@ -14,11 +14,17 @@
                     <form>
                         <div class="form-group">
                             <label for="user" class="col-form-label">Users:</label>
-                            <user-select name="emails" url="{{ route('users.autoload') }}"></user-select>
+                            <user-select 
+                                name="emails" 
+                                url="{{ route('users.autoload') }}">
+                            </user-select>
+                            @if($errors->has('emails'))
+                                <span class="form-text text-danger">{{ $errors->get('emails')[0] }}</span>
+                            @endif
                         </div>
                         <div class="form-group">
                             <label for="message-text" class="col-form-label">Message:</label>
-                            <textarea name="message" class="form-control" id="message-text"></textarea>
+                            <textarea name="message" class="form-control" id="message-text">{{ old('message') }}</textarea>
                         </div>
                     </form>
                 </div>

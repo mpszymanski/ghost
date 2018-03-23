@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\UserWasInvited;
 use App\Http\Requests\EventRequest;
+use App\Http\Requests\InvitationRequest;
 use App\Repositories\Interfaces\EventRepository;
 use App\Repositories\Interfaces\InvitationRepository;
 use App\Repositories\Interfaces\UserRepository;
@@ -170,11 +171,11 @@ class EventsController extends Controller
         return redirect()->back();
     }
 
-    public function invite()
+    public function invite(InvitationRequest $request)
     {
-        $id = request()->get('event_id');
-        $emails = explode(',', request()->get('emails'));
-        $message = request()->get('message');
+        $id = $request->get('event_id');
+        $emails = explode(',', $request->get('emails'));
+        $message = $request->get('message');
 
         try {
             $users = $this->user_repository->findWhereIn('email', (array) $emails);
