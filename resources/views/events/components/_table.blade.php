@@ -18,7 +18,7 @@
                 <th></th>
             </tr>
             @forelse($events as $event)
-                <tr>
+                <tr class="{{ !$event->isNotFinishYet() ? 'text-muted striked' : '' }}">
                     <td>{{ $event->name }}</td>
                     <td>{{ $event->place->name }}</td>
                     <td>{{ $event->fulldate }}</td>
@@ -39,12 +39,18 @@
                                     {{ __('Edit') }}
                                 </a>
                             @endcan
-                            <div role="separator" class="dropdown-divider"></div>
-                            @can('invite-to-event', $event)
-                                <a href="#" class="dropdown-item" data-toggle="modal" data-target="#invitation-modal" data-event="{{ $event->id }}">
-                                    {{ __('Invite') }}
-                                </a>
-                            @endcan
+                            @if($event->isNotFinishYet())
+                                <div role="separator" class="dropdown-divider"></div>
+                                @can('invite-to-event', $event)
+                                    <a href="#" 
+                                        class="dropdown-item" 
+                                        data-toggle="modal" 
+                                        data-target="#invitation-modal" 
+                                        data-event="{{ $event->id }}">
+                                        {{ __('Invite') }}
+                                    </a>
+                                @endcan
+                            @endif
                             @can('join-event', $event)
                                 <form action="{{ route('events.join', $event) }}" method="post">
                                     @csrf

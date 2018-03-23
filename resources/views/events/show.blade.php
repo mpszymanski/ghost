@@ -70,7 +70,7 @@
 						</dd>
 					</dl>
 					<div class="row">
-						@if($event->end_timestamp > Carbon\Carbon::now()->timestamp)
+						@if($event->isNotFinishYet())
 							<div class="col-md-2">
 								@auth
 									@can('join-event', $event)

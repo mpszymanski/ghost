@@ -102,4 +102,9 @@ class Event extends Model
     {
     	return $this->hasMany('App\Invitation');
     }
+
+    public function isNotFinishYet()
+    {
+        return $this->end_timestamp > Carbon::now()->timestamp;
+    }
 }
