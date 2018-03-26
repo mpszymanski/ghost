@@ -1,0 +1,7 @@
+.table tr:first-child th {
+	border-top: 0;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+	background-color: var(--secondary);
+}

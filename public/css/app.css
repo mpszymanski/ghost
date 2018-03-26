@@ -10157,6 +10157,15 @@ a.text-dark:focus {
   display: inline-block;
 }
 
+.table tr:first-child th {
+  border-top: 0;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  background-color: var(--secondary);
+}
+
 #jumbotron-homepage {
   background-image: url(/images/hero.jpg?4cafa2a658ef1b5f01ddf67287ac3bb8);
   background-size: 100%;

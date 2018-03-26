@@ -1,14 +1,5 @@
 <div class="card mb-4">
     <div class="card-body">
-        <header class="header">
-            <div class="row">
-                <div class="col-md-8">
-                    <h2>
-                        {{ $table_name }}
-                    </h2>
-                </div>
-            </div>
-        </header>
         <table class="table">
             <tr>
                 <th>{{ __('Name') }}</th>
