@@ -126,11 +126,21 @@
                     </div>
                     <div class="col-md-6">
                         <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ __('Anonymize your account') }}</h5>
-                                <p class="card-text">{{ __('We will keep your events and invitations, but you can require account anonymization. Your data will be unredable.') }}</p>
-                                <a href="#" class="btn btn-outline-danger">{{ __('Anonymize me') }}</a>
-                            </div>
+                            <form action="{{ route('profile.destroy') }}" method="POST">
+                                @method('DELETE')
+                                @csrf
+                                <input type="hidden" name="date" id="anonymization-date">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ __('Anonymize your account') }}</h5>
+                                    <p class="card-text">{{ __('We will keep your events and invitations, but you can require account anonymization. Your data will be unredable.') }}</p>
+                                    <button type="submit" id="anonymize" class="btn btn-outline-danger">{{ __('Anonymize me') }}</button>
+                                    @if ($errors->has('date'))
+                                        <div class="text-danger mt-2">
+                                            <strong>{{ $errors->first('date') }}</strong>
+                                        </div>
+                                    @endif
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -142,6 +152,17 @@
 
 @push('scripts')
     <script type="text/javascript">
+        $(function(){
+            $('#anonymize').click(function(e){
+                e.preventDefault()
+                var date = prompt("Type your birthdate to confirme anonymization (dd.mm.yyyy)")
+                if(date) {
+                    $('#anonymization-date').val(date)
+                    $(this).parents('form').submit()
+                }
+            })
+        })
+
         $('#birthdate').inputmask('dd.mm.yyyy')
     </script>
 @endpush

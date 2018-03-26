@@ -16,7 +16,7 @@ class UsersTableSeeder extends Seeder
 	        'email' => 'szyman@example.com',
 	        'password' => bcrypt('secret'), // secret
 	        'remember_token' => str_random(10),
-	        'birth_date' => Carbon\Carbon::createFromFormat('Y-m-d', '1995-03-04'),
+	        'birthdate' => Carbon\Carbon::createFromFormat('Y-m-d', '1995-03-04'),
 			'gender' => 'M'
 		]);
 

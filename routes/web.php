@@ -19,6 +19,7 @@ Route::get('/map/events/{position}', 'HomeController@mapEvents')->name('map.even
 Route::group(['middleware'=> 'auth'], function() {
 	Route::get('/profile', 'ProfileController@profile')->name('profile.index');
 	Route::put('/profile', 'ProfileController@update')->name('profile.update');
+	Route::delete('/profile', 'ProfileController@destroy')->name('profile.destroy');
 
 	Route::post('/events/{id}/join', 'EventsController@join')->name('events.join');
 	Route::post('/events/{id}/leave', 'EventsController@leave')->name('events.leave');
