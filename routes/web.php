@@ -42,14 +42,6 @@ Route::group(['middleware'=> 'auth'], function() {
 
 });
 
-Route::get('users/autoload', function() {
-	$query = request()->get('q');
-	return App\User::where('nick', 'like', "%$query%")->orWhere('email', 'like', "%$query%")
-		->take(20)
-		->get()
-		->map(function($user) {
-			return "{$user->nick}<{$user->email}>";
-		});
-})->name('users.autoload');
+Route::get('users/autoload', 'EventsController@usersAutoload')->name('users.autoload');
 
 Route::get('/{id}/{slug}', 'EventsController@show')->name('events.show');

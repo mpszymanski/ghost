@@ -21,7 +21,7 @@ class UserWasInvited
      *
      * @return void
      */
-    public function __construct(\App\User $user, \App\Event $event, String $message)
+    public function __construct(\App\User $user, \App\Event $event, String $message = "")
     {
         $this->user = $user;
         $this->event = $event;

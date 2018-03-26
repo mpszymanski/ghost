@@ -11,7 +11,9 @@ class EventUpdaterService
 {
 	private $event_repository, $place_repository;
 
-	function __construct(EventRepository $event_repository, PlaceRepository $place_repository)
+	function __construct(
+        EventRepository $event_repository, 
+        PlaceRepository $place_repository)
     {
         $this->event_repository = $event_repository;
         $this->place_repository = $place_repository;

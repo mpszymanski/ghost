@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\UserWasInvited;
 use App\Http\Requests\EventRequest;
 use App\Http\Requests\InvitationRequest;
+use App\Repositories\Eloquent\Criteria\AutoloadFilter;
 use App\Repositories\Interfaces\EventRepository;
 use App\Repositories\Interfaces\InvitationRepository;
 use App\Repositories\Interfaces\UserRepository;
@@ -62,11 +63,10 @@ class EventsController extends Controller
 
     public function edit($id)
     {
-        $event = $this->event_repository->find($id);
-        $this->authorize('edit-event', $event);
-        
         $event = $this->event_repository->with('place')->find($id);
-
+        
+        $this->authorize('edit-event', $event);
+    
         return view('events.edit', compact('event'));
     }
 
@@ -175,7 +175,7 @@ class EventsController extends Controller
     {
         $id = $request->get('event_id');
         $emails = explode(',', $request->get('emails'));
-        $message = $request->get('message');
+        $message = (string) $request->get('message');
 
         try {
             $users = $this->user_repository->findWhereIn('email', (array) $emails);
@@ -196,5 +196,17 @@ class EventsController extends Controller
         }
         
         return redirect()->back();
+    }
+
+    public function usersAutoload()
+    {
+        $query = request()->get('q');
+
+        $this->user_repository->addCriteria(new AutoloadFilter($query));
+
+        return $this->user_repository->take(20,['email', 'nick'])
+            ->map(function($user) {
+                return "{$user->nick}<{$user->email}>";
+            });
     }
 }
