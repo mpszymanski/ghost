@@ -30,7 +30,8 @@
                         value="{{ old('event.name') ?? $event->name }}"
                         name="event[name]"
                         id="event-name" 
-                        placeholder="My awesome party!">
+                        placeholder="My awesome party!"
+                        required>
                 </div>
                 <div class="form-group row">
                     <div class="col-md-3">
@@ -86,7 +87,7 @@
                             <input type="number" class="form-control{{ $errors->has('event.participants_limit') ? ' is-invalid' : '' }}"
                                 value="{{ old('event.participants_limit') ?? $event->participants_limit }}"
                                 name="event[participants_limit]"
-                                id="event-limit" >
+                                id="event-limit">
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -108,7 +109,8 @@
                         value="{{ old('place.name') ?? $place->name }}"
                         name="place[name]"
                         id="place-name" 
-                        placeholder="In my flat!">
+                        placeholder="In my flat!"
+                        required>
                 </div>
                 <events-coordinates-map
                     lat_name="place[lat]"
