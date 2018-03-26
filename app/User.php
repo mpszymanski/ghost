@@ -27,8 +27,15 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    protected $dates = ['birthdate'];
+
     public function invitations()
     {
         return $this->hasMany('App\Invitation');
+    }
+
+    public function getFBirthdateAttribute()
+    {
+        return $this->birthdate->format('d.m.Y');
     }
 }

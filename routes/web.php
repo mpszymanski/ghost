@@ -13,14 +13,13 @@
 
 Auth::routes();
 
-Route::get('/ip', function() {
-	return request()->getClientIp();
-});
-
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/map/events/{position}', 'HomeController@mapEvents')->name('map.events');
 
 Route::group(['middleware'=> 'auth'], function() {
+	Route::get('/profile', 'ProfileController@profile')->name('profile.index');
+	Route::put('/profile', 'ProfileController@update')->name('profile.update');
+
 	Route::post('/events/{id}/join', 'EventsController@join')->name('events.join');
 	Route::post('/events/{id}/leave', 'EventsController@leave')->name('events.leave');
 	Route::post('/events/invite', 'EventsController@invite')->name('events.invite');
@@ -39,7 +38,6 @@ Route::group(['middleware'=> 'auth'], function() {
 
 	    return new App\Mail\Invitation($user, $event, $message);
 	});
-
 });
 
 Route::get('users/autoload', 'EventsController@usersAutoload')->name('users.autoload');
