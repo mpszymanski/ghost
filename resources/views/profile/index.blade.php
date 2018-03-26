@@ -121,11 +121,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="btn btn-primary">{{ __('Save') }}</button>
+                            <button class="btn btn-primary">{{ __('Save changes') }}</button>
                         </form>
                     </div>
                     <div class="col-md-6">
-                        <div class="card">
+                        <div class="card mt-4">
                             <form action="{{ route('profile.destroy') }}" method="POST">
                                 @method('DELETE')
                                 @csrf

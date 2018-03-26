@@ -8,7 +8,7 @@
                         {{ $title }}
                     </h2>
                 </div>
-                <div class="col-md-4 text-right">
+                <div class="col-md-4 text-md-right">
                     <span class="switch switch-sm">
                         <label for="switch-public" class="switch-prev">Private Event</label>
                         <input type="checkbox" 
@@ -34,7 +34,7 @@
                         required>
                 </div>
                 <div class="form-group row">
-                    <div class="col-md-3">
+                    <div class="col-md-3 mb-2">
                         <label for="event-start-date">Start Date</label>
                         <input type="text" class="form-control{{ $errors->has('event.start_date') ? ' is-invalid' : '' }}"
                             value="{{ old('event.start_date') ?? $event->start_date->format('d.m.Y') }}"
@@ -43,7 +43,7 @@
                             placeholder="01.05.2018"
                             data-toggle="datepicker">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-6 col-md-3">
                         <label for="event-start-time">Start Time</label>
                         <input type="text" class="form-control{{ $errors->has('event.start_time') ? ' is-invalid' : '' }}"
                             value="{{ old('event.start_time') ?? $event->f_start_time }}"
@@ -51,7 +51,7 @@
                             id="event-start-time"
                             placeholder="12:00">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-6 col-md-3 mb-2">
                         <label for="event-start-time">End Time</label>
                         <input type="text" class="form-control{{ $errors->has('event.end_time') ? ' is-invalid' : '' }}"
                             value="{{ old('event.end_time') ?? $event->f_end_time }}"
@@ -81,7 +81,7 @@
                     }}</textarea>
                 </div>
                 <div class="form-group row">
-                    <div class="col-md-3">
+                    <div class="col-6 col-md-3">
                         <div class="form-group">
                             <label for="event-limit">Participants limit</label>
                             <input type="number" class="form-control{{ $errors->has('event.participants_limit') ? ' is-invalid' : '' }}"
@@ -90,7 +90,7 @@
                                 id="event-limit">
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-6 col-md-3">
                         <div class="form-group">
                             <label for="event-deadline">Allow register until</label>
                             <input type="text" class="form-control{{ $errors->has('event.register_deadline') ? ' is-invalid' : '' }}"
@@ -120,7 +120,7 @@
                 ></events-coordinates-map>
             </div>
         </div>
-        <button class="btn btn-primary">{{ $button_label }}</button>
+        <button class="btn btn-primary mt-4">{{ $button_label }}</button>
     </div>
 </div>
 

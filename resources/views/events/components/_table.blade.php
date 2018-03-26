@@ -1,6 +1,6 @@
 <div class="card mb-4">
     <div class="card-body">
-        <table class="table">
+        <table class="table table-responsive">
             <tr>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Place') }}</th>

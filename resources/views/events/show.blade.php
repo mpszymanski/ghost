@@ -14,7 +14,7 @@
 									<small class="text-primary">{{ $event->full_date }}</small>
 								</h2>
 							</div>
-							<div class="col-md-4 text-right">
+							<div class="col-md-4 text-md-right">
 								@if($event->is_public)
 									<h3>
 										<i class="material-icons">public</i> {{ __('Public event') }}
@@ -71,7 +71,7 @@
 					</dl>
 					<div class="row">
 						@if($event->isNotFinishYet())
-							<div class="col-md-2">
+							<div class="col-4 col-md-2">
 								@auth
 									@can('join-event', $event)
 										<form action="{{ route('events.join', $event) }}" method="post">
@@ -98,12 +98,12 @@
 									</form>
 								@endauth
 							</div>
-							<div class="col-md-4">
+							<div class="col-8 col-md-4">
 								{{ __('Joining is available until') }}<br>
 								<strong>{{ $event->f_register_deadline }}</strong>
 							</div>
 						@else
-							<div class="col-md-2">
+							<div class="col-4 col-md-2">
 								<button type="submit" class="btn btn-secendary" disabled>
 									{{ __('This event is already over') }}
 								</button>
