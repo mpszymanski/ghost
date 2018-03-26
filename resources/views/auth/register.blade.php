@@ -48,14 +48,14 @@
                                         <input class="form-check-input" type="radio" name="gender" value="F" id="gender1" 
                                         {{ old('gender') == 'F' ?: 'checked' }} required>
                                         <label class="form-check-label" for="gender1">
-                                            Female
+                                            {{ __('Female') }}
                                         </label>
                                     </div>
                                     <div class="form-check-inline pt-2{{ $errors->has('gender') ? ' is-invalid' : '' }}">
                                         <input class="form-check-input" type="radio" name="gender" value="M" id="gender2" 
                                         {{ old('gender') == 'M' ?: 'checked' }} required>
                                         <label class="form-check-label" for="gender2">
-                                            Male
+                                            {{ __('Male') }}
                                         </label>
                                     </div>
 

@@ -23,7 +23,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="email">E-mail</label>
+                                        <label for="email">{{ __('E-Mail Address') }}</label>
                                         <input type="text" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
                                             value="{{ old('email') ?? $user->email }}"
                                             name="email"
@@ -39,7 +39,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="nick">Nick</label>
+                                        <label for="nick">{{ __('Nick') }}</label>
                                         <input type="text" class="form-control{{ $errors->has('nick') ? ' is-invalid' : '' }}"
                                             value="{{ old('nick') ?? $user->nick }}"
                                             name="nick"
@@ -57,7 +57,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="password">Password</label>
+                                        <label for="password">{{ __('Password') }}</label>
                                         <input type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
                                             name="password"
                                             id="password">
@@ -71,7 +71,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="password-confirmation">Confirm Password</label>
+                                        <label for="password-confirmation">{{ __('Confirm Password') }}</label>
                                         <input type="password" class="form-control{{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}"
                                             name="password_confirmation"
                                             id="password-confirmation">
@@ -101,14 +101,14 @@
                                                 <input class="form-check-input" type="radio" name="gender" value="F" id="gender1" 
                                                 {{ $user->gender == 'F' ? 'checked' : '' }} required>
                                                 <label class="form-check-label" for="gender1">
-                                                    Female
+                                                    {{ __('Female') }}
                                                 </label>
                                             </div>
                                             <div class="form-check-inline pt-2{{ $errors->has('gender') ? ' is-invalid' : '' }}">
                                                 <input class="form-check-input" type="radio" name="gender" value="M" id="gender2" 
                                                 {{ $user->gender == 'M' ? 'checked' : '' }} required>
                                                 <label class="form-check-label" for="gender2">
-                                                    Male
+                                                    {{ __('Male') }}
                                                 </label>
                                             </div>
 
@@ -129,7 +129,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ __('Anonymize your account') }}</h5>
                                 <p class="card-text">{{ __('We will keep your events and invitations, but you can require account anonymization. Your data will be unredable.') }}</p>
-                                <a href="#" class="btn btn-outline-danger">Anonymize me</a>
+                                <a href="#" class="btn btn-outline-danger">{{ __('Anonymize me') }}</a>
                             </div>
                         </div>
                     </div>
